@@ -1,0 +1,25 @@
+{
+"tagfile" : "test/ats_array.sats",
+"tagentarr" : [
+{
+"name" : "array_ptr_initialize_lst_vt", "nline" : 103, "nchar" : 2772
+}
+,
+{
+"name" : "array_ptr_make_lst_vt", "nline" : 109, "nchar" : 2927
+}
+]
+}
+
+{
+"tagfile" : "test/ats_ccomp_env.sats",
+"tagentarr" : [
+{
+"name" : "loc_t", "nline" : 38, "nchar" : 1589
+}
+,
+{
+"name" : "typdeflst_get", "nline" : 65, "nchar" : 2051
+}
+]
+}

@@ -1,0 +1,8 @@
+
+test/ats_array.sats,67
+array_ptr_initialize_lst_vt104,2772
+array_ptr_make_lst_vt110,2927
+
+test/ats_ccomp_env.sats,79
+typedef loc_t = $Loc.location_t39,1589
+fun typdeflst_get (): typdeflst66,2051

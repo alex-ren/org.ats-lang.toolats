@@ -1,0 +1,19 @@
+group etags;
+
+etags_file_st(files) ::= <<
+<files; separator="\n">
+>>
+
+tag_file_st(name, length, entries) ::= <<
+<\u000c>
+<name>,<length>
+<entries>
+>>
+
+tag_entries_st (entries) ::= <<
+<entries; separator="\n">
+>>
+
+tag_entry_st(content, tagname, lineno, offset) ::= <<
+<content><\u007f><if(tagname)><tagname><\u0001><endif><lineno>,<offset>
+>>
