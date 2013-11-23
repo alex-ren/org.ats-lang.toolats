@@ -1,0 +1,236 @@
+group jsonize;
+
+
+// =====================================================
+
+type_spec_st (literal, func_dec_lst, func_impl_lst) ::= <<
+<literal>
+
+<func_dec_lst; separator="\n">
+
+<func_impl_lst; separator="\n\n">
+>>
+
+// ====================================================
+
+jsonize_int_st (arg) ::= <<
+  jsonize_int (<arg>)
+>>
+
+jsonize_string_st (arg) ::= <<
+  jsonize_string (<arg>)
+>>
+
+jsonize_double_st (arg) ::= <<
+  jsonize_double (<arg>)
+>>
+
+// ====================================================
+
+// para => elety_trans
+trans_list_st (arg, para, elety, elety_trans) ::= <<
+let
+  val __len = list_length (<arg>)
+  val __arr = array0_make_elt (size_of_int (__len), JSONnul ())
+
+  fun loop (arr: array0 (jsonVal), xs: List (<elety>), n: int): void =
+  case+ xs of
+  | list_nil () => ()
+  | list_cons (<para>, xs) => let
+    val jx = 
+      <elety_trans>
+    val () = arr[n] := jx
+  in
+    loop (arr, xs, n + 1)
+  end
+  val () = loop (__arr, <arg>, 0)
+in
+  JSONarray (arr)
+end
+>>
+
+// ====================================================
+
+/*
+* nplst: list of np
+* np: (name, trans)
+*/
+trans_record_st (rec_mem_lst) ::= <<
+let
+  val __jp_lst = list0_nil ()
+  
+  <rec_mem_lst; separator="\n">
+  
+  val __ret = JSONobject (__jp_lst)
+in
+  __ret
+end
+>>
+
+// para => trans
+record_member_st (para, mem_name, qname, trans) ::= <<
+val __name = "<mem_name>"
+val <para> = <qname>
+val __value = <trans>
+val __p = '(__name, __value)
+val __jp_lst = list0_cons (__p, __jp_lst)
+
+>>
+
+record_qname_st (arg, name) ::= <<
+<arg>.<name>
+>>
+
+// ====================================================
+
+trans_name_st (arg, name) ::= <<
+jsonize_<name>(<arg>)
+>>
+
+// ====================================================
+
+name_type_dec_st (tyid) ::= <<
+extern fun jsonize_<tyid> (x: <tyid>): jsonVal
+>>
+
+// para ==> trans
+name_type_impl_st (para, tyid, trans) ::= <<
+implement jsonize_<tyid>(<para>) = 
+  <tytrans>
+>>
+
+// ====================================================
+
+abs_type_dec_st (tyid) ::= <<
+extern fun jsonize_<tyid> (x: <tyid>): jsonVal
+>>
+
+abs_type_impl_st (para, tyid, abs_mem_lst) ::= <<
+implement jsonize_<tyid> (<para>) =
+let
+  val __jp_lst = list0_nil ()
+  
+  <abs_mem_lst; separator="\n">
+  
+  val __ret = JSONobject (__jp_lst)
+in
+  __ret
+end
+>>
+
+abs_member_st (para, mem_name, getv, trans) ::= <<
+val __name = "<mem_name>"
+val <para> = <getv>
+val __value = <trans>
+val __p = '(__name, __value)
+val __jp_lst = list0_cons (__p, __jp_lst)
+>>
+
+abs_getv_st (tyid, arg, name) ::= <<
+<tyid>_get<name>(<arg>)
+>>
+
+// =====================================================
+
+data_type_dec_st (tyid) ::= <<
+extern fun jsonize_<tyid> (x: <tyid>): jsonVal
+>>
+
+data_type_impl_st (tyid, data_mem_lst) ::= <<
+implement jsonize_<tyid> (x) =
+case+ x of
+<data_mem_lst; separator="\n">
+>>
+
+data_mem_st (arrname, cons_name, paralst, len, data_mem_item_lst) ::= <<
+| <cons_name> (<paralst; separator=",">) => let
+  val <arrname> = array0_make_elt (<len>, JSONnul ())
+  val () = <arrname>[0] := JSONstring ("<cons_name>")
+  <data_mem_item_lst; separator="\n">
+in
+  JSONarray (<arrname>)
+end
+>>
+
+data_mem_item_st (arrname, ind, trans) ::= <<
+val () = <arrname>[<ind>] := <trans>
+>>
+
+// =====================================================
+
+
+list_type_st (elety) ::= <<
+List (<elety>)
+>>
+
+record_type_st (tplst) ::= <<
+{<tplst; separator=";">}
+>>
+
+record_pair_st (name, ty) ::= <<
+<name> = <ty>
+>>
+
+int_type_st () ::= <<
+int
+>>
+
+string_type_st () ::= <<
+string
+>>
+
+double_type_st () ::= <<
+double
+>>
+
+name_type_st (name) ::= <<
+<name>
+>>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+
+  

@@ -23,8 +23,7 @@ public class EmitterEtags implements TagEmitter {
         m_stg = new STGroupFile(fileURL, "ascii", '<', '>');
     }
 
-
-    
+	@Override
     public String fromJSONReader(Reader input) throws IOException {
         TagFile[] tagfs = m_reader.fromJSONReader(input);
         
@@ -76,4 +75,7 @@ public class EmitterEtags implements TagEmitter {
         
         return stFiles.render();
     }
+
+
+  
 }

@@ -1,0 +1,15 @@
+
+%{
+staload "xxx"
+#include "yyy"
+%}
+
+
+datatype T1 =
+| cons1 (Tx, List (List (Tx)))
+| cons2 (Tx, {a1=Tx, a2 = Ty})
+| cons3 (int)
+
+abstype T2 {x = int, y = string}
+
+

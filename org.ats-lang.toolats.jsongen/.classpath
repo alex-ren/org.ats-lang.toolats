@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
 	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="src" path="antlr-output"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-	<classpathentry kind="lib" path="google-gson-2.2.4/gson-2.2.4.jar" sourcepath="google-gson-2.2.4/gson-2.2.4-sources.jar"/>
-	<classpathentry kind="lib" path="ST-4.0.7.jar"/>
+	<classpathentry kind="lib" path="antlr-3.5-complete.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

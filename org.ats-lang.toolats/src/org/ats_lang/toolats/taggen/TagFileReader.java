@@ -29,13 +29,13 @@ public class TagFileReader {
 
     }
     
-    public TagFile[] fromJSONObject(Reader input) {
-        TagFile[] tagfs = m_gson.fromJson(input, TagFile[].class);
-        return tagfs;
-    }
-    
-    public TagFile[] fromJSONObject(String input) {
-        TagFile[] tagfs = m_gson.fromJson(input, TagFile[].class);
-        return tagfs;
-    }
+//    public TagFile[] fromJSONObject(Reader input) {
+//        TagFile[] tagfs = m_gson.fromJson(input, TagFile[].class);
+//        return tagfs;
+//    }
+//    
+//    public TagFile[] fromJSONObject(String input) {
+//        TagFile[] tagfs = m_gson.fromJson(input, TagFile[].class);
+//        return tagfs;
+//    }
 }

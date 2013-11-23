@@ -1,0 +1,106 @@
+
+staload "xxx"
+#include "yyy"
+
+
+extern fun jsonize_T1 (x: T1): jsonVal
+extern fun jsonize_T2 (x: T2): jsonVal
+
+implement jsonize_T1 (x) =
+case+ x of
+| cons1 (__e0,__e1) => let
+  val __arr = array0_make_elt (3, JSONnul ())
+  val () = __arr[0] := JSONstring ("cons1")
+  val () = __arr[0] := jsonize_Tx(__e0)
+  val () = __arr[1] := let
+    val __len = list_length (__e1)
+    val __arr = array0_make_elt (size_of_int (__len), JSONnul ())
+
+    fun loop (arr: array0 (jsonVal), xs: List (List (Tx)), n: int): void =
+    case+ xs of
+    | list_nil () => ()
+    | list_cons (x, xs) => let
+      val jx = 
+        let
+          val __len = list_length (x)
+          val __arr = array0_make_elt (size_of_int (__len), JSONnul ())
+
+          fun loop (arr: array0 (jsonVal), xs: List (Tx), n: int): void =
+          case+ xs of
+          | list_nil () => ()
+          | list_cons (x, xs) => let
+            val jx = 
+              jsonize_Tx(x)
+            val () = arr[n] := jx
+          in
+            loop (arr, xs, n + 1)
+          end
+          val () = loop (__arr, x, 0)
+        in
+          JSONarray (arr)
+        end
+      val () = arr[n] := jx
+    in
+      loop (arr, xs, n + 1)
+    end
+    val () = loop (__arr, __e1, 0)
+  in
+    JSONarray (arr)
+  end
+in
+  JSONarray (__arr)
+end
+| cons2 (__e0,__e1) => let
+  val __arr = array0_make_elt (3, JSONnul ())
+  val () = __arr[0] := JSONstring ("cons2")
+  val () = __arr[0] := jsonize_Tx(__e0)
+  val () = __arr[1] := let
+    val __jp_lst = list0_nil ()
+
+    val __name = "a1"
+    val __v = __e1.a1
+    val __value = jsonize_Tx(__v)
+    val __p = '(__name, __value)
+    val __jp_lst = list0_cons (__p, __jp_lst)
+
+    val __name = "a2"
+    val __v = __e1.a2
+    val __value = jsonize_Ty(__v)
+    val __p = '(__name, __value)
+    val __jp_lst = list0_cons (__p, __jp_lst)
+
+
+    val __ret = JSONobject (__jp_lst)
+  in
+    __ret
+  end
+in
+  JSONarray (__arr)
+end
+| cons3 (__e0) => let
+  val __arr = array0_make_elt (2, JSONnul ())
+  val () = __arr[0] := JSONstring ("cons3")
+  val () = __arr[0] := jsonize_int (__e0)
+in
+  JSONarray (__arr)
+end
+
+implement jsonize_T2 (x) =
+let
+  val __jp_lst = list0_nil ()
+
+  val __name = "x"
+  val __v = T2_getx(x)
+  val __value = jsonize_int (__v)
+  val __p = '(__name, __value)
+  val __jp_lst = list0_cons (__p, __jp_lst)
+  val __name = "y"
+  val __v = T2_gety(x)
+  val __value = jsonize_string (__v)
+  val __p = '(__name, __value)
+  val __jp_lst = list0_cons (__p, __jp_lst)
+
+  val __ret = JSONobject (__jp_lst)
+in
+  __ret
+end
