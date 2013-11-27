@@ -1,5 +1,6 @@
 package org.ats_lang.toolats.jsongen.tree;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class TypeCons {
@@ -8,6 +9,11 @@ public class TypeCons {
     
     public TypeCons(String consId, List<IATSType> tyLst) {
         m_consId = consId;
-        m_tyLst = tyLst;
+        if (null == tyLst) {
+            m_tyLst = new ArrayList<IATSType>();
+        } else {
+            m_tyLst = tyLst;
+        }
+        
     }
 }

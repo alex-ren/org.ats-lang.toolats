@@ -3,26 +3,117 @@ group jsonize;
 
 // =====================================================
 
-type_spec_st (literal, func_dec_lst, func_impl_lst) ::= <<
+type_spec_st (extra, literal, abs_mem_dec_lst, abs_whole_dec_lst, func_dec_lst, func_impl_lst) ::= <<
+
 <literal>
 
-<func_dec_lst; separator="\n">
+staload _ = "prelude/DATS/list0.dats"
+
+<extra>
+
+// ====== to be implemented ==========
+
+<abs_mem_dec_lst:{x | extern <x>  // abs member}; separator="\n\n">
+
+<abs_whole_dec_lst:{x | extern <x>}; separator="\n\n">
+
+// ====== implemented below ==========
+
+<func_dec_lst:{x | extern <x>}; separator="\n">
+
+// ====== implementation ==========
 
 <func_impl_lst; separator="\n\n">
 >>
 
 // ====================================================
 
+type_spec_impl_sats_st (extra, literal, abs_mem_dec_lst, abs_whole_dec_lst, func_dec_lst) ::= <<
+<literal>
+
+<extra>
+
+// ====== to be implemented ==========
+
+<abs_mem_dec_lst:{x | <x>  // abs member}; separator="\n\n">
+
+// ====================================================
+
+<abs_whole_dec_lst; separator="\n\n">
+
+// ============ already implemented =============
+
+<func_dec_lst; separator="\n\n">
+
+
+>>
+
+// ====================================================
+
+type_spec_impl_dats_st (extra, literal, ext_func_simple_impl_lst) ::= <<
+<literal>
+
+<extra>
+
+// ====== to be implemented ==========
+
+<ext_func_simple_impl_lst; separator="\n\n">
+
+
+
+
+>>
+
+// ====================================================
+
 jsonize_int_st (arg) ::= <<
-  jsonize_int (<arg>)
+jsonize_int (<arg>)
 >>
 
 jsonize_string_st (arg) ::= <<
-  jsonize_string (<arg>)
+jsonize_string (<arg>)
 >>
 
 jsonize_double_st (arg) ::= <<
-  jsonize_double (<arg>)
+jsonize_double (<arg>)
+>>
+
+jsonize_bool_st (arg) ::= <<
+jsonize_bool (<arg>)
+>>
+
+jsonize_char_st (arg) ::= <<
+jsonize_char (<arg>)
+>>
+
+jsonize_lint_st (arg) ::= <<
+jsonize_lint (<arg>)
+>>
+
+jsonize_ref_st () ::= <<
+jsonize_ref ()
+>>
+
+// ====================================================
+
+// para => elety_trans
+trans_option_st (arg, para, elety_trans) ::= <<
+(
+case+ <arg> of
+| None () => let
+  val __arr = array0_make_elt (1, JSONnul ())
+  val () = __arr[0] := JSONstring ("None")
+in
+  JSONarray (__arr)
+end
+| Some (<para>) => let
+  val __arr = array0_make_elt (2, JSONnul ())
+  val () = __arr[0] := JSONstring ("Some")
+  val () = __arr[1] := <elety_trans>
+in
+  JSONarray (__arr)
+end
+)
 >>
 
 // ====================================================
@@ -31,6 +122,7 @@ jsonize_double_st (arg) ::= <<
 trans_list_st (arg, para, elety, elety_trans) ::= <<
 let
   val __len = list_length (<arg>)
+
   val __arr = array0_make_elt (size_of_int (__len), JSONnul ())
 
   fun loop (arr: array0 (jsonVal), xs: List (<elety>), n: int): void =
@@ -45,7 +137,7 @@ let
   end
   val () = loop (__arr, <arg>, 0)
 in
-  JSONarray (arr)
+  JSONarray (__arr)
 end
 >>
 
@@ -61,6 +153,7 @@ let
   
   <rec_mem_lst; separator="\n">
   
+  val __jp_lst = list0_reverse(__jp_lst)
   val __ret = JSONobject (__jp_lst)
 in
   __ret
@@ -89,20 +182,25 @@ jsonize_<name>(<arg>)
 
 // ====================================================
 
-name_type_dec_st (tyid) ::= <<
-extern fun jsonize_<tyid> (x: <tyid>): jsonVal
+name_type_dec_st (tyid_name, tyid) ::= <<
+fun jsonize_<tyid_name> (x: <tyid>): jsonVal
 >>
 
 // para ==> trans
-name_type_impl_st (para, tyid, trans) ::= <<
-implement jsonize_<tyid>(<para>) = 
-  <tytrans>
+name_type_impl_st (para, tyid_name, trans) ::= <<
+implement jsonize_<tyid_name>(<para>) = 
+  <trans>
 >>
 
 // ====================================================
 
-abs_type_dec_st (tyid) ::= <<
-extern fun jsonize_<tyid> (x: <tyid>): jsonVal
+abs_type_dec_st (tyid_name, tyid) ::= <<
+fun jsonize_<tyid_name> (x: <tyid>): jsonVal
+>>
+
+abs_type_simple_impl_st (tyid_name) ::= <<
+implement jsonize_<tyid_name> (x) = 
+jsonize_string ("<tyid_name> is not supported.")
 >>
 
 abs_type_impl_st (para, tyid, abs_mem_lst) ::= <<
@@ -112,12 +210,14 @@ let
   
   <abs_mem_lst; separator="\n">
   
+  val __jp_lst = list0_reverse(__jp_lst)
   val __ret = JSONobject (__jp_lst)
 in
   __ret
 end
 >>
 
+// para is inside trans
 abs_member_st (para, mem_name, getv, trans) ::= <<
 val __name = "<mem_name>"
 val <para> = <getv>
@@ -127,23 +227,31 @@ val __jp_lst = list0_cons (__p, __jp_lst)
 >>
 
 abs_getv_st (tyid, arg, name) ::= <<
-<tyid>_get<name>(<arg>)
+todo<tyid><name>(<arg>)
+>>
+
+abs_memeber_func_st (qid, id, arg) ::= <<
+<if(qid)><qid>.<endif><id>(<arg>)
+>>
+
+abs_getv_dec_st (tyid_name, tyid, name, frettyid) ::= <<
+fun todo<tyid_name><name> (x: <tyid>): <frettyid>
 >>
 
 // =====================================================
 
-data_type_dec_st (tyid) ::= <<
-extern fun jsonize_<tyid> (x: <tyid>): jsonVal
+data_type_dec_st (tyid_name, tyid) ::= <<
+fun jsonize_<tyid_name> (x: <tyid>): jsonVal
 >>
 
-data_type_impl_st (tyid, data_mem_lst) ::= <<
-implement jsonize_<tyid> (x) =
+data_type_impl_st (tyid_name, data_mem_lst) ::= <<
+implement jsonize_<tyid_name> (x) =
 case+ x of
 <data_mem_lst; separator="\n">
 >>
 
-data_mem_st (arrname, cons_name, paralst, len, data_mem_item_lst) ::= <<
-| <cons_name> (<paralst; separator=",">) => let
+data_mem_st (qid, arrname, cons_name, paralst, len, data_mem_item_lst) ::= <<
+| <if(qid)><qid>.<endif><cons_name> (<paralst; separator=",">) => let
   val <arrname> = array0_make_elt (<len>, JSONnul ())
   val () = <arrname>[0] := JSONstring ("<cons_name>")
   <data_mem_item_lst; separator="\n">
@@ -158,13 +266,24 @@ val () = <arrname>[<ind>] := <trans>
 
 // =====================================================
 
+ref_type_st (elety) ::= <<
+ref (<elety>)
+>>
 
 list_type_st (elety) ::= <<
 List (<elety>)
 >>
 
-record_type_st (tplst) ::= <<
-{<tplst; separator=";">}
+option_type_st (elety) ::= <<
+Option (<elety>)
+>>
+
+boxed_record_type_st (tplst) ::= <<
+'{<tplst; separator=";">}
+>>
+
+flat_record_type_st (tplst) ::= <<
+@{<tplst; separator=";">}
 >>
 
 record_pair_st (name, ty) ::= <<
@@ -183,12 +302,29 @@ double_type_st () ::= <<
 double
 >>
 
+bool_type_st () ::= <<
+bool
+>>
+
+char_type_st () ::= <<
+char
+>>
+
+lint_type_st () ::= <<
+lint
+>>
+
 name_type_st (name) ::= <<
 <name>
 >>
 
+type_id_fullname_rep_st (id, idlst) ::= <<
+<id><if(idlst)>_<idlst; separator="_"><endif>
+>>
 
-
+type_id_fullname_type_st (qid, id, idlst) ::= <<
+<if(qid)><qid>.<endif><id><if(idlst)>(<idlst; separator=", ">)<endif>
+>>
 
 
 

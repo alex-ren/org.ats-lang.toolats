@@ -6,10 +6,13 @@ import org.stringtemplate.v4.ST;
 import org.stringtemplate.v4.STGroup;
 
 public class RecordType implements IATSType {
+    public static enum Kind {boxed, flat};
 
     public List<TypePair> m_typLst;
+    public Kind m_kind;
     
-    public RecordType(List<TypePair> typLst) {
+    public RecordType(Kind kind, List<TypePair> typLst) {
+        m_kind = kind;
         m_typLst = typLst;
     }
 
@@ -43,8 +46,17 @@ public class RecordType implements IATSType {
 
     @Override
     public ST getTypeString(STGroup stg) {
-        // record_type_st (tplst) ::= <<
-        ST st = stg.getInstanceOf("record_type_st");
+        ST st = null;
+        if (Kind.boxed == m_kind) {
+            // boxed_record_type_st (tplst) ::= <<
+            st = stg.getInstanceOf("boxed_record_type_st");
+        } else if (Kind.flat == m_kind) {
+            // flat_record_type_st (tplst) ::= <<
+            st = stg.getInstanceOf("flat_record_type_st");
+        } else {
+            throw new Error("not supported");
+        }
+        
         for (TypePair tp: m_typLst) {
             // record_pair_st (name, ty) ::= <<
             ST stPair = stg.getInstanceOf("record_pair_st");

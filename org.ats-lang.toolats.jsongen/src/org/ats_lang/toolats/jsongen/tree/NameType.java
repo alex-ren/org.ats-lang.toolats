@@ -4,9 +4,9 @@ import org.stringtemplate.v4.ST;
 import org.stringtemplate.v4.STGroup;
 
 public class NameType implements IATSType {
-    public String m_id;
+    public TypeId m_id;
     
-    public NameType(String id) {
+    public NameType(TypeId id) {
         m_id = id;
     }
 
@@ -15,7 +15,7 @@ public class NameType implements IATSType {
         // trans_name_st (arg, name) ::= <<
         ST st = stg.getInstanceOf("trans_name_st");
         st.add("arg", arg);
-        st.add("name", m_id);
+        st.add("name", m_id.getFullNameRep(stg));
         
         return st;
     }
@@ -23,7 +23,7 @@ public class NameType implements IATSType {
     @Override
     public ST getTypeString(STGroup stg) {
         ST st = stg.getInstanceOf("name_type_st");
-        st.add("name", m_id);
+        st.add("name", m_id.getFullNameForType(stg));
         
         return st;
     }

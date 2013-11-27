@@ -8,6 +8,9 @@ public class BaseType implements IATSType {
     public final static BaseType cInt = new BaseType();
     public final static BaseType cString = new BaseType();
     public final static BaseType cDouble = new BaseType();
+    public final static BaseType cBool = new BaseType();
+    public final static BaseType cChar = new BaseType();
+    public final static BaseType cLInt = new BaseType();
     
     private BaseType() {}
 
@@ -20,6 +23,12 @@ public class BaseType implements IATSType {
             st = stg.getInstanceOf("jsonize_string_st");
         } else if (this == cDouble) {
             st = stg.getInstanceOf("jsonize_double_st");
+        } else if (this == cBool) {
+            st = stg.getInstanceOf("jsonize_bool_st");
+        } else if (this == cChar) {
+            st = stg.getInstanceOf("jsonize_char_st");
+        } else if (this == cLInt) {
+            st = stg.getInstanceOf("jsonize_lint_st");
         } else {
             throw new Error("not supported");
         }
@@ -37,6 +46,12 @@ public class BaseType implements IATSType {
             st = stg.getInstanceOf("string_type_st");
         } else if (this == cDouble) {
             st = stg.getInstanceOf("double_type_st");
+        } else if (this == cBool) {
+            st = stg.getInstanceOf("bool_type_st");
+        } else if (this == cChar) {
+            st = stg.getInstanceOf("char_type_st");
+        } else if (this == cLInt) {
+            st = stg.getInstanceOf("lint_type_st");
         } else {
             throw new Error("not supported");
         }

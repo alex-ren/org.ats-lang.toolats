@@ -1,15 +1,35 @@
 
 %{
-staload "xxx"
-#include "yyy"
+staload F1 = "filename1.sats"
+staload F2 = "filename2.sats"
+staload F3 = "filename3.sats"
+
+
+staload "json_simple.sats"
+
+staload _(*anon*) = "prelude/DATS/list.dats"
+staload _(* anon *) = "prelude/DATS/array0.dats"
+
+
 %}
 
+datatype $F1.T1 =
+| cons1 of (T2y, List (List ($F2.T2x)))
+| cons2 of (T2y, {a1=T2x, a2 = T2y})
+| cons3 of (int)
 
-datatype T1 =
-| cons1 (Tx, List (List (Tx)))
-| cons2 (Tx, {a1=Tx, a2 = Ty})
-| cons3 (int)
 
-abstype T2 {x = int, y = string}
+typedef $F2.T2x = int
+typedef $F2.T2y = string
 
+
+abstype $F2.T2 = {
+_getx = int, 
+_gety = string
+}
+
+abstype $F3.T3 = {
+@$F3.T3_getx = int, 
+@$F3.T3_gety = T2y
+}
 
