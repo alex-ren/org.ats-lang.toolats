@@ -58,5 +58,10 @@ public class BaseType implements IATSType {
 
         return st;
     }
+    
+    @Override
+    public Object accept(IATSTypeVisitor visitor) {
+        return visitor.visit(this);
+    }
 
 }

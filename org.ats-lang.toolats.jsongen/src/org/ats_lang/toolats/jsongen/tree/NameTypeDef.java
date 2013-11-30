@@ -1,7 +1,5 @@
 package org.ats_lang.toolats.jsongen.tree;
 
-import java.util.List;
-
 import org.stringtemplate.v4.ST;
 import org.stringtemplate.v4.STGroup;
 
@@ -38,5 +36,17 @@ public class NameTypeDef implements IATSTypeDef {
         
         return st;
     }
+    
+    @Override
+    public Object accept(IATSTypeVisitor visitor) {
+        return visitor.visit(this);
+    }
+    
+    @Override
+    public TypeId getTypeId() {
+        return m_id;
+    }
 
 }
+
+

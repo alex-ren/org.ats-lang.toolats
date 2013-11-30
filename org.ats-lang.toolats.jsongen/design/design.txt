@@ -1,0 +1,100 @@
+1. Type supported:
+1) Base type:
+  int
+  string
+  double
+  bool
+  char
+  lint
+
+2) List Type
+  List tt
+  List (tt)
+
+3) Option Type
+  Option (tt)
+
+4) Reference Type
+  Ref (tt)
+Caution: Reference type is detected, but not supported for generating conversion code.
+
+5) Record
+  '{x = tt1, y = tt2}
+  {x = tt1, y = tt2}
+  @{x = tt1, y = tt2}
+
+6) Name type
+  tt
+  qid.tt
+  qid.tt (tt1, tt2)
+
+2. Type definition
+1) data type
+  datatype tt = {
+  | cons
+  }
+  
+  datatype tt = {
+  | cons1 of tt1
+  }
+  
+  datatype tt = {
+  | cons1 of (tt1)
+  }
+  
+  // Function declaration for conversion will be generated into file xxx_cvt.sats.
+  The corresponding implementation will be generated into file xxx_cvt.dats.
+  
+  
+2) abstract type
+  abstype tt
+  // The declaration will be generated into xxx_cvt.sats.
+  
+  // A default implementation will be generated in xxx_cvt_impl.dats so that
+  the whole converter can run instantly.
+  
+  abstype tt = {
+  _getx = tt1,
+  _gety = tt2
+  }
+  // Function declarations for tt_getx and tt_gety would be generated into file
+  xxx_cvt.sats. We need to implement it manually.
+  
+  abstype tt = {
+  @$qid.tt_getx = tt1,
+  @$qid.tt_gety = tt2
+  }
+  // For such usage, we should put the following line
+  staload qid = "ttt.sats"
+  into the "literal" part of the .tats file.
+  
+
+3. Usage of quantifier
+Currently, it's not support to define a new type in the .tats file, since there's no way that
+such type can be used by other .dats files.
+
+Currently, the name for the conversion function doesn't take into consideration the quantifier of
+the type definition. Therefore, it is not supported that two types in different .sats can have the
+same name, even though we have the concept of quantifier.
+
+For type definition (including data type and abstract type), normally we'd better use the quantifier
+to match the "staload". On the
+other hand, only for list type do we need to specify the quantifier. This is simply due to the fact that
+we need to declare a function for converting such list.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

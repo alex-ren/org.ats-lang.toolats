@@ -46,6 +46,12 @@ public class TestATSD2E {
             // parsing
             ATSTypeParser parser = new ATSTypeParser(tokenStream);
             ATSTypeSpec spec = parser.rule();
+            
+            // name binding
+            VisitorBinder vb = new VisitorBinder(spec);
+            vb.bindName();            
+
+            // generating
             JsonGen js = new JsonGen();
             String output = js.trans("staload \"../SATS/libatsyn2json_cvt.sats\"", spec);
 

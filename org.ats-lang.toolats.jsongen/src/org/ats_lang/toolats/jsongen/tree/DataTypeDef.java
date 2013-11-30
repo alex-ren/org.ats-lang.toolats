@@ -62,6 +62,15 @@ public class DataTypeDef implements IATSTypeDef {
         st.add("tyid", m_id.getFullNameForType(stg));
         return st;
     }
-
+    
+    @Override
+    public Object accept(IATSTypeVisitor visitor) {
+        return visitor.visit(this);
+    }
+    
+    @Override
+    public TypeId getTypeId() {
+        return m_id;
+    }
 
 }

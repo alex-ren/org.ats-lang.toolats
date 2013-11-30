@@ -9,6 +9,8 @@ staload "json_simple.sats"
 staload _(*anon*) = "prelude/DATS/list.dats"
 staload _(* anon *) = "prelude/DATS/array0.dats"
 
+typedef T5 = List int
+typedef T6 = '{x=int, y=string}
 
 
 
@@ -154,3 +156,58 @@ let
 in
   __ret
 end
+
+implement jsonize_T4 (x) =
+let
+  val __jp_lst = list0_nil ()
+
+
+  val __jp_lst = list0_reverse(__jp_lst)
+  val __ret = JSONobject (__jp_lst)
+in
+  __ret
+end
+
+implement jsonize_T5(x) = 
+  let
+    val __len = list_length (x)
+
+    val __arr = array0_make_elt (size_of_int (__len), JSONnul ())
+
+    fun loop (arr: array0 (jsonVal), xs: List (int), n: int): void =
+    case+ xs of
+    | list_nil () => ()
+    | list_cons (x, xs) => let
+      val jx = 
+        jsonize_int (x)
+      val () = arr[n] := jx
+    in
+      loop (arr, xs, n + 1)
+    end
+    val () = loop (__arr, x, 0)
+  in
+    JSONarray (__arr)
+  end
+
+implement jsonize_T6(x) = 
+  let
+    val __jp_lst = list0_nil ()
+
+    val __name = "x"
+    val __v = x.x
+    val __value = jsonize_int (__v)
+    val __p = '(__name, __value)
+    val __jp_lst = list0_cons (__p, __jp_lst)
+
+    val __name = "y"
+    val __v = x.y
+    val __value = jsonize_string (__v)
+    val __p = '(__name, __value)
+    val __jp_lst = list0_cons (__p, __jp_lst)
+
+
+    val __jp_lst = list0_reverse(__jp_lst)
+    val __ret = JSONobject (__jp_lst)
+  in
+    __ret
+  end

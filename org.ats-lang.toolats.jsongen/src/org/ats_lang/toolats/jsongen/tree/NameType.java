@@ -9,6 +9,10 @@ public class NameType implements IATSType {
     public NameType(TypeId id) {
         m_id = id;
     }
+    
+    public void updateTypeId(TypeId tid) {
+        m_id = tid;
+    }
 
     @Override
     public ST generate(STGroup stg, String arg) {
@@ -26,6 +30,11 @@ public class NameType implements IATSType {
         st.add("name", m_id.getFullNameForType(stg));
         
         return st;
+    }
+    
+    @Override
+    public Object accept(IATSTypeVisitor visitor) {
+        return visitor.visit(this);
     }
 
 }

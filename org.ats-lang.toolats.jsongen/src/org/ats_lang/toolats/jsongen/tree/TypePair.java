@@ -1,12 +1,13 @@
 package org.ats_lang.toolats.jsongen.tree;
 
 public class TypePair {
+    // The "func" is used for abstract type with "@xxx_get = ttt".
     public enum Kind {member, func};
     
     public Kind m_kind;
     public String m_id;
     public IATSType m_ty;
-    public String m_qid;
+    public String m_qid;  // This is the quantifier for the function.
     
     public TypePair(String id, IATSType ty) {
         m_kind = Kind.member;

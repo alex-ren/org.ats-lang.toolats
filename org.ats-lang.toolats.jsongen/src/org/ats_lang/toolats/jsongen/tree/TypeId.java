@@ -10,8 +10,13 @@ public class TypeId {
     private String m_tyid;
     private List<TypeId> m_tyidLst;
     
-    public String getTyId() {
-        return m_tyid;
+    public String getShortName() {
+        String ret = m_tyid;
+        
+        for (TypeId tid: m_tyidLst) {
+            ret += "_" + tid.getShortName();
+        }
+        return ret;
     }
     
     public String getQId() {
@@ -45,6 +50,16 @@ public class TypeId {
             st.add("idlst", tid.getFullNameForType(stg));
         }
         return st;
+    }
+    
+    @Override
+    public String toString() {
+        if (null != m_qid) {
+            return m_qid + "." + m_tyid;
+        } else {
+            return m_tyid;
+        }
+        
     }
 
 }

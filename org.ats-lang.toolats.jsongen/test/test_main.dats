@@ -25,6 +25,17 @@ implement main () = let
   val jv = jsonize_T1 (t1)
   val str = json_dump_string (jv)
   val () = println! str
+
+  val xs = list_cons (1, list_cons (2, list_cons (3, list_nil)))
+  val jv = jsonize_T5 (xs)
+  val str = json_dump_string (jv)
+  val () = println! str
+
+  val record = '{x = 3, y = "ok"}
+  val jv = jsonize_T6 (record)
+  val str = json_dump_string (jv)
+  val () = println! str
+
 in
 end
   

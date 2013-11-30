@@ -46,6 +46,12 @@ public class Test {
             // parsing
             ATSTypeParser parser = new ATSTypeParser(tokenStream);
             ATSTypeSpec spec = parser.rule();
+            
+            // name binding
+            VisitorBinder vb = new VisitorBinder(spec);
+            vb.bindName();            
+   
+            // generating
             JsonGen js = new JsonGen();
             
             String SatsCvt = classname + "_cvt.sats";

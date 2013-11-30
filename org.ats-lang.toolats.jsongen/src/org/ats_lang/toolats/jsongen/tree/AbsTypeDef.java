@@ -12,7 +12,12 @@ public class AbsTypeDef implements IATSTypeDef {
     
     public AbsTypeDef(TypeId id, List<TypePair> typLst) {
         m_id = id;
-        m_typLst = typLst;
+        if (null != typLst) {
+            m_typLst = typLst;
+        } else {
+            m_typLst = new ArrayList<TypePair>();
+        }
+        
     }
 
     @Override
@@ -108,6 +113,16 @@ public class AbsTypeDef implements IATSTypeDef {
         } else {
             return null;
         }
+    }
+
+    @Override
+    public Object accept(IATSTypeVisitor visitor) {
+        return visitor.visit(this);
+    }
+
+    @Override
+    public TypeId getTypeId() {
+        return m_id;
     }
     
 }

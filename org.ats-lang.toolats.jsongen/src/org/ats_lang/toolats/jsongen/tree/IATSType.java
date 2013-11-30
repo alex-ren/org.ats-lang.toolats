@@ -7,4 +7,6 @@ public interface IATSType {
     ST generate(STGroup stg, String arg);
     
     ST getTypeString(STGroup stg);
+    
+    Object accept(IATSTypeVisitor visitor);
 }

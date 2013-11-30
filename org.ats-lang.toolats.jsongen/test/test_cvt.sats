@@ -9,6 +9,8 @@ staload "json_simple.sats"
 staload _(*anon*) = "prelude/DATS/list.dats"
 staload _(* anon *) = "prelude/DATS/array0.dats"
 
+typedef T5 = List int
+typedef T6 = '{x=int, y=string}
 
 
 
@@ -33,4 +35,10 @@ fun jsonize_T2y (x: $F2.T2y): jsonVal
 fun jsonize_T2 (x: $F2.T2): jsonVal
 
 fun jsonize_T3 (x: $F3.T3): jsonVal
+
+fun jsonize_T4 (x: $F3.T4): jsonVal
+
+fun jsonize_T5 (x: T5): jsonVal
+
+fun jsonize_T6 (x: T6): jsonVal
 

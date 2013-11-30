@@ -9,6 +9,8 @@ staload "json_simple.sats"
 staload _(*anon*) = "prelude/DATS/list.dats"
 staload _(* anon *) = "prelude/DATS/array0.dats"
 
+typedef T5 = List int
+typedef T6 = '{x=int, y=string}
 
 
 
