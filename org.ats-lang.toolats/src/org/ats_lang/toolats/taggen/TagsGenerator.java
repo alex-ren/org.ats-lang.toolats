@@ -89,7 +89,7 @@ public class TagsGenerator {
 
     public void emit() throws IOException {
         FileReader fReader = null;;
-        StringReader sReader = null;;
+        StringReader sReader = null;;  // useless now (12/08/2013)
         FileWriter fw = null;
         
         try {

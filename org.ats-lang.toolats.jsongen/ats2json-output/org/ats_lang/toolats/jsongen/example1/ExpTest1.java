@@ -72,6 +72,7 @@ public class ExpTest1 {
                 throw new Error("type not match");
             }
         }
+        reader.endObject();
         
         RecordX rx = new RecordX(x, y);
         System.out.println(rx.toString());
