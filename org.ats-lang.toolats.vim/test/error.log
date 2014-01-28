@@ -1,0 +1,28 @@
+Hello from ATS2(ATS/Postiats)!
+Loading [fixity.ats] starts!
+Loading [fixity.ats] finishes!
+Loading [basics_pre.sats] starts!
+Loading [basics_pre.sats] finishes!
+Loading [basics_sta.sats] starts!
+Loading [basics_sta.sats] finishes!
+Loading [basics_dyn.sats] starts!
+Loading [basics_dyn.sats] finishes!
+Loading [basics_gen.sats] starts!
+Loading [basics_gen.sats] finishes!
+The 1st translation (fixity) of [test.dats] is successfully completed!
+The 2nd translation (binding) of [test.dats] is successfully completed!
+/home/alex/workspace/org.ats-lang.toolats/projects/org.ats-lang.toolats.vim/test.dats: 42(line=3, offs=15) -- 65(line=3, offs=38): error(3): the symbol [*] cannot be resolved as no match is found.
+
+
+/home/alex/workspace/org.ats-lang.toolats/projects/org.ats-lang.toolats.vim/test.dats: 42(line=3, offs=15) -- 65(line=3, offs=38): error(3): [/home/alex/workspace/Postiats/ATS-Postiats/src/pats_trans3_util.dats]: d3exp_trdn: the dynamic expression cannot be assigned the type [S2Eapp(S2Ecst(g0int_t0ype); S2Ecst(int_kind))].
+/home/alex/workspace/org.ats-lang.toolats/projects/org.ats-lang.toolats.vim/test.dats: 42(line=3, offs=15) -- 65(line=3, offs=38): error(3): mismatch of static terms (tyleq):
+The actual term is: S2Eerr()
+The needed term is: S2Eapp(S2Ecst(g0int_t0ype); S2Ecst(int_kind))
+
+
+/home/alex/workspace/org.ats-lang.toolats/projects/org.ats-lang.toolats.vim/test.dats: 71(line=4, offs=6) -- 74(line=4, offs=9): error(3): [/home/alex/workspace/Postiats/ATS-Postiats/src/pats_trans3_util.dats]: d3exp_trdn: the dynamic expression cannot be assigned the type [S2Eapp(S2Ecst(g0int_t0ype); S2Ecst(int_kind))].
+/home/alex/workspace/org.ats-lang.toolats/projects/org.ats-lang.toolats.vim/test.dats: 71(line=4, offs=6) -- 74(line=4, offs=9): error(3): mismatch of static terms (tyleq):
+The actual term is: S2Eapp(S2Ecst(char_int_t0ype); S2Eint(115))
+The needed term is: S2Eapp(S2Ecst(g0int_t0ype); S2Ecst(int_kind))
+TRANS3: there are [3] errors in total.
+exit(ATS): uncaught exception: _2home_2alex_2workspace_2Postiats_2ATS_2dPostiats_2src_2pats_error_2esats__FatalErrorException(1025)
