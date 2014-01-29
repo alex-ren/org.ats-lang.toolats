@@ -16,7 +16,7 @@ if !filereadable(expand("%:p:h")."/Makefile")
     CompilerSet makeprg=patsopt\ -tc\ -s\ %
 endif
 
-CompilerSet errorformat=
+CompilerSet errorformat^=
         \%E%f:\ %*\\d(line=%l\\,\ offs=%c)\ --\ %*\\d(line=%*\\d\\,\ offs=%*\\d):\ error(%*\\S):\ %m,
         \%-G%.%#
     
