@@ -12,9 +12,9 @@ if exists(":CompilerSet") != 2
 endif
 
 
-if !filereadable(expand("%:p:h")."/Makefile")
-    CompilerSet makeprg=patsopt\ -tc\ -d\ %
-endif
+"if !filereadable(expand("%:p:h")."/Makefile")
+CompilerSet makeprg=patsopt\ -tc\ -d\ %
+"endif
 
 CompilerSet errorformat^=
         \%E%f:\ %*\\d(line=%l\\,\ offs=%c)\ --\ %*\\d(line=%*\\d\\,\ offs=%*\\d):\ error(%n):\ %m,
