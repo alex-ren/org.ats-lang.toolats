@@ -18,6 +18,8 @@ CompilerSet makeprg=patsopt\ -tc\ -d\ %
 
 CompilerSet errorformat^=
         \%E%f:\ %*\\d(line=%l\\,\ offs=%c)\ --\ %*\\d(line=%*\\d\\,\ offs=%*\\d):\ error(%n):\ %m,
+        \%E%f:\ %*\\d(line=%l\\,\ offs=%c)\ --\ %*\\d(line=%*\\d\\,\ offs=%*\\d):\ error(%tarsing):\ %m,
+        \%W%f:\ %*\\d(line=%l\\,\ offs=%c)\ --\ %*\\d(line=%*\\d\\,\ offs=%*\\d):\ warning(%n):\ %m,
         \%+C%.%#actual%.%#,
         \%+C%.%#needed%.%#
         "\%-G%.%#
